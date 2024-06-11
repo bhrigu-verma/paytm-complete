@@ -19,9 +19,9 @@ app.post("/hdfcWebhook", async (req, res) => {
 
     try {
         await db.$transaction([
-            db.balance.updateMany({
+            db.balance.update({
                 where: {
-                    userId: Number(paymentInformation.userId)
+                    userId: req.body.user_identifier
                 },
                 data: {
                     amount: {
@@ -36,6 +36,7 @@ app.post("/hdfcWebhook", async (req, res) => {
                 }, 
                 data: {
                     status: "Success",
+                    // increment: 1 // Add the missing increment argument
                 }
             })
         ]);
